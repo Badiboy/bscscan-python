@@ -623,6 +623,92 @@ class Accounts:
         )
 
     @staticmethod
+    def get_bep20_token_transfer_events_by_address_paginated(
+        address: str,
+        page: int,
+        offset: int,
+        startblock: int,
+        endblock: int,
+        sort: str,
+    ):
+        """Get all BEP20 token transfer events for a given address as numbered pages.
+
+        Args:
+            address (str): Target address.
+            page (int): Page number to fetch.
+            offset (int): Max records to return.
+            startblock (int): Start block of the query.
+            endblock (int): End block of the query.
+            sort (str): "asc" to return results in ascending order.
+
+        Returns:
+            List[dict]: All transactions on requested page as a list of dictionaries.
+
+        Example::
+
+            from bscscan import BscScan
+
+            async with BscScan(YOUR_API_KEY) as client:
+                print(
+                    await client.get_bep20_token_transfer_events_by_address(
+                        address="0x63aea877b5d5fa234a1532f1b26a4f6d9051866e",
+                        startblock=0,
+                        endblock=999999999,
+                        page=1,
+                        offset=10,
+                        sort="asc"
+                    )
+                )
+
+        Results::
+
+            [
+                {
+                    "blockNumber": "4387931",
+                    "timeStamp": "1611843685",
+                    "hash": "0x9603a00eaad4572fc03aae6ce4e64d129767752da95f53e3f726ad4ed86a843e",
+                    "nonce": "0",
+                    "blockHash": "0x33667c5034de6cb748e2d746b31b21f2c90dc20e8b670658bbb1c2201ced17f3",
+                    "from": "0x7be44b47c12761eab1b80b5779638fb09165c743",
+                    "contractAddress": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+                    "to": "0x63aea877b5d5fa234a1532f1b26a4f6d9051866e",
+                    "value": "42265483120736185167",
+                    "tokenName": "Binance-Peg BUSD Token",
+                    "tokenSymbol": "BUSD",
+                    "tokenDecimal": "18",
+                    "transactionIndex": "8",
+                    "gas": "411698",
+                    "gasPrice": "20000000000",
+                    "gasUsed": "286489",
+                    "cumulativeGasUsed": "1154025",
+                    "input": "deprecated",
+                    "confirmations": "3196712"
+                },
+
+                ...
+            ]
+        """
+
+        return (
+            f"{fields.MODULE}"
+            f"{modules.ACCOUNT}"
+            f"{fields.ACTION}"
+            f"{actions.TOKENTX}"
+            f"{fields.ADDRESS}"
+            f"{address}"
+            f"{fields.START_BLOCK}"
+            f"{str(startblock)}"
+            f"{fields.END_BLOCK}"
+            f"{str(endblock)}"
+            f"{fields.SORT}"
+            f"{sort}"
+            f"{fields.PAGE}"
+            f"{str(page)}"
+            f"{fields.OFFSET}"
+            f"{str(offset)}"
+        )
+
+    @staticmethod
     def get_bep20_token_transfer_events_by_contract_address_paginated(
         contract_address: str, page: int, offset: int, sort: str
     ):
